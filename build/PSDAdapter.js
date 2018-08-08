@@ -45,7 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = __importStar(require("path"));
 var artboardPsd_1 = require("./artboardPsd");
 var singlePagePsd_1 = require("./singlePagePsd");
-require("./vendor/psd.min.js");
+require("script-loader!./vendor/psd.min.js");
 var psdLib = window["require"]("psd");
 var PSDAdapter = /** @class */ (function () {
     function PSDAdapter() {

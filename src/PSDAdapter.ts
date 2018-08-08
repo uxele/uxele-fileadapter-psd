@@ -3,7 +3,7 @@ import * as path from "path";
 import { artboardPsd } from "./artboardPsd";
 import { singlePagePsd } from "./singlePagePsd";
 import { IProject, IPage } from "psdetch-core";
-import "./vendor/psd.min.js";
+import "script-loader!./vendor/psd.min.js";
 const psdLib = (window as any)["require"]("psd");
 export class PSDAdapter implements core.IFileAdapter {
   private decodePages(projectRaw: any, fileName: string): IPage[] {
