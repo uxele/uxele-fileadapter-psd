@@ -1,9 +1,8 @@
 import { IPage, Rect, ILayer, layer } from "psdetch-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
 import { canvas } from "psdetch-utils";
-import { cachePromise } from "psdetch-utils/build/cachePromise";
 import { psdRawLayerConvert } from "./psdLayerConvert";
-import { canvasToImgUrl } from "psdetch-utils/build/canvas";
+import { canvasToImg, zoomImg } from "psdetch-utils/build/canvas";
 
 export function artboardPsd(p: any): IPage[] {
   const tree = p.tree();
@@ -18,7 +17,7 @@ export function artboardPsd(p: any): IPage[] {
       rect = Rect.fromJson(c);
     }
     const bgPage = canvas.cropCanvas(bgImg, rect);
-    let imgUrl:string="";
+    let previewImg:HTMLImageElement | undefined=undefined;
     let layers:ILayer[]|undefined=undefined;
     const page: IPage = {
       name: c.name,
@@ -27,12 +26,14 @@ export function artboardPsd(p: any): IPage[] {
       width: rect.width,
       height: rect.height,
       getPreview: async (zoom: number) => {
-        if (!imgUrl){
-          imgUrl=await canvasToImgUrl(bgImg);
+        if (!previewImg){
+          previewImg=await canvasToImg(bgPage);
         }
-        const img=new Image(rect.width*zoom,rect.height*zoom);
-        img.src=imgUrl;
-        return img;
+        if (zoom ===1){
+          return previewImg;
+        }else{
+          return await zoomImg(previewImg,zoom);
+        }
       },
       getLayers: async (): Promise<ILayer[]> => {
         if (!layers){

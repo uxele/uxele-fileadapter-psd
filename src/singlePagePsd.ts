@@ -2,6 +2,7 @@ import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
 import { canvasToImg, canvasToImgUrl } from "psdetch-utils/build/canvas";
 import { IPage, ILayer, layer } from "psdetch-core";
 import { psdRawLayerConvert } from "./psdLayerConvert";
+import { zoomImg } from "psdetch-utils/build/canvas";
 
 export function singlePagePsd(p: any, defaultPageName: string): IPage[] {
   const tree = p.tree();
@@ -24,13 +25,15 @@ export function singlePagePsd(p: any, defaultPageName: string): IPage[] {
   return [page];
 }
 function genGetPreview(bgCanvas:HTMLCanvasElement){
-  let imgUrl="";
+  let previewImg:HTMLImageElement | undefined=undefined;
   return  async (zoom:number)=>{
-    if (imgUrl.length>0){
-      imgUrl=await canvasToImgUrl(bgCanvas);
+    if (!previewImg){
+      previewImg=await canvasToImg(bgCanvas);
     }
-    const img=new Image(bgCanvas.width*zoom,bgCanvas.height*zoom);
-    img.src=imgUrl;
-    return img;
+    if (zoom === 1){
+      return previewImg;
+    }else{
+      return zoomImg(previewImg,zoom);
+    }
   }
 }

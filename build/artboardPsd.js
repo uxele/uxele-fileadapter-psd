@@ -55,7 +55,7 @@ function artboardPsd(p) {
             rect = psdetch_core_1.Rect.fromJson(c);
         }
         var bgPage = psdetch_utils_1.canvas.cropCanvas(bgImg, rect);
-        var imgUrl = "";
+        var previewImg = undefined;
         var layers = undefined;
         var page = {
             name: c.name,
@@ -64,19 +64,19 @@ function artboardPsd(p) {
             width: rect.width,
             height: rect.height,
             getPreview: function (zoom) { return __awaiter(_this, void 0, void 0, function () {
-                var img;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            if (!!imgUrl) return [3 /*break*/, 2];
-                            return [4 /*yield*/, canvas_1.canvasToImgUrl(bgImg)];
+                            if (!!previewImg) return [3 /*break*/, 2];
+                            return [4 /*yield*/, canvas_1.canvasToImg(bgPage)];
                         case 1:
-                            imgUrl = _a.sent();
+                            previewImg = _a.sent();
                             _a.label = 2;
                         case 2:
-                            img = new Image(rect.width * zoom, rect.height * zoom);
-                            img.src = imgUrl;
-                            return [2 /*return*/, img];
+                            if (!(zoom === 1)) return [3 /*break*/, 3];
+                            return [2 /*return*/, previewImg];
+                        case 3: return [4 /*yield*/, canvas_1.zoomImg(previewImg, zoom)];
+                        case 4: return [2 /*return*/, _a.sent()];
                     }
                 });
             }); },

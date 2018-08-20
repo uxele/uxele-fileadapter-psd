@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
 var canvas_1 = require("psdetch-utils/build/canvas");
 var psdLayerConvert_1 = require("./psdLayerConvert");
+var canvas_2 = require("psdetch-utils/build/canvas");
 function singlePagePsd(p, defaultPageName) {
     var _this = this;
     var tree = p.tree();
@@ -69,21 +70,24 @@ function singlePagePsd(p, defaultPageName) {
 exports.singlePagePsd = singlePagePsd;
 function genGetPreview(bgCanvas) {
     var _this = this;
-    var imgUrl = "";
+    var previewImg = undefined;
     return function (zoom) { return __awaiter(_this, void 0, void 0, function () {
-        var img;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(imgUrl.length > 0)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, canvas_1.canvasToImgUrl(bgCanvas)];
+                    if (!!previewImg) return [3 /*break*/, 2];
+                    return [4 /*yield*/, canvas_1.canvasToImg(bgCanvas)];
                 case 1:
-                    imgUrl = _a.sent();
+                    previewImg = _a.sent();
                     _a.label = 2;
                 case 2:
-                    img = new Image(bgCanvas.width * zoom, bgCanvas.height * zoom);
-                    img.src = imgUrl;
-                    return [2 /*return*/, img];
+                    if (zoom === 1) {
+                        return [2 /*return*/, previewImg];
+                    }
+                    else {
+                        return [2 /*return*/, canvas_2.zoomImg(previewImg, zoom)];
+                    }
+                    return [2 /*return*/];
             }
         });
     }); };
