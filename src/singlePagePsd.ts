@@ -30,6 +30,7 @@ function genGetPreview(bgCanvas:HTMLCanvasElement){
       imgUrl=await canvasToImgUrl(bgCanvas);
     }
     const img=new Image(bgCanvas.width*zoom,bgCanvas.height*zoom);
+    img.src=imgUrl;
     return img;
   }
 }

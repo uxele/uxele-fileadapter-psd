@@ -82,6 +82,7 @@ function genGetPreview(bgCanvas) {
                     _a.label = 2;
                 case 2:
                     img = new Image(bgCanvas.width * zoom, bgCanvas.height * zoom);
+                    img.src = imgUrl;
                     return [2 /*return*/, img];
             }
         });
