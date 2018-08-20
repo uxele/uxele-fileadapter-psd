@@ -43,8 +43,8 @@
   },
   "dependencies": {
     "path": "^0.12.7",
-    "psdetch-core": "git+ssh://git@gitlab.com/psdetch/psdetch-core.git#v1.1.0",
-    "psdetch-utils": "git+ssh://git@gitlab.com/psdetch/psdetch-utils.git#v1.0.1",
+    "psdetch-core": "git+ssh://git@gitlab.com/psdetch/psdetch-core.git",
+    "psdetch-utils": "git+ssh://git@gitlab.com/psdetch/psdetch-utils.git",
     "script-loader": "^0.7.2"
   }
 }
