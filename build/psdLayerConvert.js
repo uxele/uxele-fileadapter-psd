@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var psdetch_core_1 = require("psdetch-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var cachePromise_1 = require("psdetch-utils/build/cachePromise");
 function psdRawLayerConvert(parent, pageRect) {
     return __awaiter(this, void 0, void 0, function () {
         var psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;
@@ -74,51 +73,79 @@ function psdRawLayerConvert(parent, pageRect) {
 }
 exports.psdRawLayerConvert = psdRawLayerConvert;
 function buildFolderLayer(layer, rawNode, pageRect) {
+    var _this = this;
     var l = layer;
-    l.children = function () {
-        return cachePromise_1.cachePromise(psdRawLayerConvert, rawNode, pageRect);
-    };
+    var children = undefined;
+    l.children = function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!children) return [3 /*break*/, 2];
+                    return [4 /*yield*/, psdRawLayerConvert(rawNode, pageRect)];
+                case 1:
+                    children = _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/, children];
+            }
+        });
+    }); };
+    l.childrenLength = rawNode.children().length;
 }
 function buildPixelLayer(layer, rawNode) {
+    var _this = this;
     var l = layer;
     var imgObj = rawNode.layer.image.obj;
-    l.getPixelImg = function () {
-        return cachePromise_1.cachePromise(function () {
-            return Promise.resolve(psdImgObjToCanvas_1.psdImgObjToCanvas(imgObj));
+    var img = undefined;
+    l.getPixelImg = function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!img) return [3 /*break*/, 2];
+                    return [4 /*yield*/, psdImgObjToCanvas_1.psdImgObjToCanvas(imgObj)];
+                case 1:
+                    img = _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/, img];
+            }
         });
-    };
+    }); };
 }
 function buildTextLayer(layer, rawNode) {
     var l = layer;
+    var txt = "";
     l.getText = function () {
-        return cachePromise_1.cachePromise(function () {
-            return Promise.resolve(rawNode.layer.typeTool().textValue);
-        });
+        if (!txt) {
+            txt = rawNode.layer.typeTool().textValue;
+        }
+        return Promise.resolve(txt);
     };
 }
 function buildVectorLayer(layer, rawNode) {
+    var _this = this;
     var l = layer;
-    l.getSvgString = function () {
-        return cachePromise_1.cachePromise(function () {
-            var rl = rawNode.layer;
-            if (!rl.vectorMask) {
-                Promise.reject("toSvg can only render vector layer.");
+    var svgString = "";
+    l.getSvgString = function () { return __awaiter(_this, void 0, void 0, function () {
+        var rl, vm, Context, ctx, drawer;
+        return __generator(this, function (_a) {
+            if (!svgString) {
+                rl = rawNode.layer;
+                vm = rl.vectorMask();
+                if (!vm.loaded) {
+                    vm.load();
+                }
+                vm = vm.export();
+                if (vm.disable) {
+                    // TODO what to do?
+                }
+                Context = require("./psdSvg/canvas2svg");
+                ctx = new Context(rl.width, rl.height);
+                drawer = require("./psdSvg/drawPath");
+                drawer(ctx, rl);
+                svgString = ctx.getSerializedSvg();
             }
-            var vm = rl.vectorMask();
-            if (!vm.loaded) {
-                vm.load();
-            }
-            vm = vm.export();
-            if (vm.disable) {
-                // TODO what to do?
-            }
-            var Context = require("./psdSvg/canvas2svg");
-            var ctx = new Context(rl.width, rl.height);
-            var drawer = require("./psdSvg/drawPath");
-            drawer(ctx, rl);
-            return Promise.resolve(ctx.getSerializedSvg());
+            return [2 /*return*/, svgString];
         });
-    };
+    }); };
 }
 function getRect(rawNode, pageRect) {
     var data = rawNode;

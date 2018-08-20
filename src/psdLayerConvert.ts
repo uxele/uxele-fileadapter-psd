@@ -1,6 +1,5 @@
 import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "psdetch-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import { cachePromise } from "psdetch-utils/build/cachePromise";
 
 export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<ILayer[]> {
   const psdRawLayers = parent.children();
@@ -32,35 +31,43 @@ export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<
 }
 function buildFolderLayer(layer: ILayer, rawNode: any, pageRect?: Rect): void {
   const l = layer as IFolderLayer;
-  l.children = () => {
-    return cachePromise(psdRawLayerConvert, rawNode, pageRect);
+  let children: ILayer[] | undefined = undefined;
+  l.children = async () => {
+    if (!children) {
+      children = await psdRawLayerConvert(rawNode, pageRect);
+    }
+    return children;
   };
+  l.childrenLength = rawNode.children().length;
 }
 function buildPixelLayer(layer: ILayer, rawNode: any): void {
   const l = layer as IPixelLayer;
   const imgObj = rawNode.layer.image.obj;
-  l.getPixelImg = () => {
-    return cachePromise(() => {
-      return Promise.resolve(psdImgObjToCanvas(imgObj));
-    });
+  let img: HTMLCanvasElement | undefined = undefined;
+  l.getPixelImg = async () => {
+    if (!img) {
+      img = await psdImgObjToCanvas(imgObj);
+    }
+    return img;
   };
 }
 function buildTextLayer(layer: ILayer, rawNode: any): void {
   const l = layer as ITextLayer;
+  let txt:string ="";
   l.getText = () => {
-    return cachePromise(() => {
-      return Promise.resolve(rawNode.layer.typeTool().textValue);
-    });
+    if (!txt){
+      txt=rawNode.layer.typeTool().textValue
+    }
+    return Promise.resolve(txt);
   };
 }
 function buildVectorLayer(layer: ILayer, rawNode: any): void {
   const l = layer as IVectorLayer;
-  l.getSvgString = () => {
-    return cachePromise(() => {
+  let svgString:string="";
+
+  l.getSvgString = async () => {
+    if (!svgString){
       const rl = rawNode.layer;
-      if (!rl.vectorMask) {
-        Promise.reject("toSvg can only render vector layer.");
-      }
       let vm = rl.vectorMask();
       if (!vm.loaded) {
         vm.load();
@@ -73,8 +80,9 @@ function buildVectorLayer(layer: ILayer, rawNode: any): void {
       const ctx = new Context(rl.width, rl.height);
       const drawer = require("./psdSvg/drawPath");
       drawer(ctx, rl);
-      return Promise.resolve(ctx.getSerializedSvg());
-    });
+      svgString=ctx.getSerializedSvg();
+    }
+    return svgString;
   };
 }
 function getRect(rawNode: any, pageRect?: Rect): Rect {
