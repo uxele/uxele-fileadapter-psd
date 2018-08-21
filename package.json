@@ -33,7 +33,6 @@
     "karma-typescript": "^3.0.12",
     "karma-webpack": "^3.0.0",
     "react-scripts-ts": "^2.16.0",
-    
     "source-map-loader": "^0.2.3",
     "ts-loader": "^4.4.2",
     "tslint": "^5.10.0",
