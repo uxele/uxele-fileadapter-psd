@@ -1,6 +1,7 @@
 import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "psdetch-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-
+import {adjustPixelRect} from "psdetch-utils";
+import { isPixelLayer, isFolderLayer } from "psdetch-core/build/layer";
 export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<ILayer[]> {
   const psdRawLayers = parent.children();
   const rtn: ILayer[] = [];
@@ -25,9 +26,22 @@ export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<
         buildVectorLayer(layerMeta, rawNode);
         break;
     }
+    trimLayerRect(layerMeta,rawNode);
     rtn.push(layerMeta);
   }
   return rtn;
+}
+async function trimLayerRect(layer:ILayer,rawNode:any){
+  let preview:HTMLCanvasElement;
+  if (isPixelLayer(layer)){
+    preview= await layer.getPixelImg();
+  }else if (!isFolderLayer(layer)){
+    const imgObj = rawNode.layer.image.obj;
+    preview=await psdImgObjToCanvas(imgObj);
+  }else{
+    return ;
+  }
+  layer.rect=adjustPixelRect(layer.rect,preview);
 }
 function buildFolderLayer(layer: ILayer, rawNode: any, pageRect?: Rect): void {
   const l = layer as IFolderLayer;
@@ -40,7 +54,7 @@ function buildFolderLayer(layer: ILayer, rawNode: any, pageRect?: Rect): void {
   };
   l.childrenLength = rawNode.children().length;
 }
-function buildPixelLayer(layer: ILayer, rawNode: any): void {
+async function buildPixelLayer(layer: ILayer, rawNode: any) {
   const l = layer as IPixelLayer;
   const imgObj = rawNode.layer.image.obj;
   let img: HTMLCanvasElement | undefined = undefined;

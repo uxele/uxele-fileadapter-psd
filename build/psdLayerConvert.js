@@ -37,6 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var psdetch_core_1 = require("psdetch-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
+var psdetch_utils_1 = require("psdetch-utils");
+var layer_1 = require("psdetch-core/build/layer");
 function psdRawLayerConvert(parent, pageRect) {
     return __awaiter(this, void 0, void 0, function () {
         var psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;
@@ -65,6 +67,7 @@ function psdRawLayerConvert(parent, pageRect) {
                         buildVectorLayer(layerMeta, rawNode);
                         break;
                 }
+                trimLayerRect(layerMeta, rawNode);
                 rtn.push(layerMeta);
             }
             return [2 /*return*/, rtn];
@@ -72,6 +75,32 @@ function psdRawLayerConvert(parent, pageRect) {
     });
 }
 exports.psdRawLayerConvert = psdRawLayerConvert;
+function trimLayerRect(layer, rawNode) {
+    return __awaiter(this, void 0, void 0, function () {
+        var preview, imgObj;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!layer_1.isPixelLayer(layer)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, layer.getPixelImg()];
+                case 1:
+                    preview = _a.sent();
+                    return [3 /*break*/, 5];
+                case 2:
+                    if (!!layer_1.isFolderLayer(layer)) return [3 /*break*/, 4];
+                    imgObj = rawNode.layer.image.obj;
+                    return [4 /*yield*/, psdImgObjToCanvas_1.psdImgObjToCanvas(imgObj)];
+                case 3:
+                    preview = _a.sent();
+                    return [3 /*break*/, 5];
+                case 4: return [2 /*return*/];
+                case 5:
+                    layer.rect = psdetch_utils_1.adjustPixelRect(layer.rect, preview);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 function buildFolderLayer(layer, rawNode, pageRect) {
     var _this = this;
     var l = layer;
@@ -92,23 +121,29 @@ function buildFolderLayer(layer, rawNode, pageRect) {
     l.childrenLength = rawNode.children().length;
 }
 function buildPixelLayer(layer, rawNode) {
-    var _this = this;
-    var l = layer;
-    var imgObj = rawNode.layer.image.obj;
-    var img = undefined;
-    l.getPixelImg = function () { return __awaiter(_this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var l, imgObj, img;
+        var _this = this;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!!img) return [3 /*break*/, 2];
-                    return [4 /*yield*/, psdImgObjToCanvas_1.psdImgObjToCanvas(imgObj)];
-                case 1:
-                    img = _a.sent();
-                    _a.label = 2;
-                case 2: return [2 /*return*/, img];
-            }
+            l = layer;
+            imgObj = rawNode.layer.image.obj;
+            img = undefined;
+            l.getPixelImg = function () { return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!!img) return [3 /*break*/, 2];
+                            return [4 /*yield*/, psdImgObjToCanvas_1.psdImgObjToCanvas(imgObj)];
+                        case 1:
+                            img = _a.sent();
+                            _a.label = 2;
+                        case 2: return [2 /*return*/, img];
+                    }
+                });
+            }); };
+            return [2 /*return*/];
         });
-    }); };
+    });
 }
 function buildTextLayer(layer, rawNode) {
     var l = layer;
