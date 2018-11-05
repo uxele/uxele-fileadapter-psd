@@ -8,7 +8,7 @@
     "test:human": "INTERACTIVE=true karma start",
     "dev": "tsc -w",
     "build": "rm -Rf ./build && tsc && cpx './src/**/*.js' ./build",
-    "dep:local": "cd node_modules && rm -Rf ./psdetch-* && ln -s ../../psdetch-* ./"
+    "dep:local": "node script/depLocal.js"
   },
   "author": "",
   "license": "ISC",
