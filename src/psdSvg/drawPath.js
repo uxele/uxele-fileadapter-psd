@@ -33,9 +33,11 @@ function paths(paths,layer){
     return rtn;
 }
 function vectConvert(obj,layer,root){
+  var horiz=obj.horiz>1?0:obj.horiz;
+  var vert=obj.vert>1?0:obj.vert;
   return {
-    horiz:root.width*obj.horiz-layer.node.left,
-    vert:root.height*obj.vert-layer.node.top
+    horiz:root.width*horiz-layer.node.left,
+    vert:root.height*vert-layer.node.top
   };
 
 }

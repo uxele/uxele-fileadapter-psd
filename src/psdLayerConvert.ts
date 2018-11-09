@@ -16,6 +16,7 @@ export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<
       case LayerType.folder:
         buildFolderLayer(layerMeta, rawNode, pageRect);
         break;
+
       case LayerType.pixel:
         buildPixelLayer(layerMeta, rawNode);
         break;
