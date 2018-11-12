@@ -134,4 +134,4 @@ var RAWLayerDepresser = /** @class */ (function (_super) {
     return RAWLayerDepresser;
 }(RAWDepresser));
 exports.RAWLayerDepresser = RAWLayerDepresser;
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/depresser.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/depresser.js.map

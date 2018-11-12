@@ -101,4 +101,4 @@ function getDepresser(rawImg, compression) {
     console.warn("Cannot determine depresser.");
     return new depresser.RLEDepresser();
 }
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/psdImgObjToCanvas.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/psdImgObjToCanvas.js.map

@@ -1,8 +1,7 @@
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import { canvasToImg, canvasToImgUrl } from "psdetch-utils/build/canvas";
-import { IPage, ILayer, layer } from "psdetch-core";
+import { canvasToImg, canvasToImgUrl,zoomImg } from "uxele-utils/build/canvas";
+import { IPage, ILayer, layer } from "uxele-core";
 import { psdRawLayerConvert } from "./psdLayerConvert";
-import { zoomImg } from "psdetch-utils/build/canvas";
 
 export function singlePagePsd(p: any, defaultPageName: string): IPage[] {
   const tree = p.tree();

@@ -28,4 +28,4 @@ exports.RGBAMix = {
         return rtn;
     },
 };
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/mixer.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/mixer.js.map

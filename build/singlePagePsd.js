@@ -36,9 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var canvas_1 = require("psdetch-utils/build/canvas");
+var canvas_1 = require("uxele-utils/build/canvas");
 var psdLayerConvert_1 = require("./psdLayerConvert");
-var canvas_2 = require("psdetch-utils/build/canvas");
 function singlePagePsd(p, defaultPageName) {
     var _this = this;
     var tree = p.tree();
@@ -85,11 +84,11 @@ function genGetPreview(bgCanvas) {
                         return [2 /*return*/, previewImg];
                     }
                     else {
-                        return [2 /*return*/, canvas_2.zoomImg(previewImg, zoom)];
+                        return [2 /*return*/, canvas_1.zoomImg(previewImg, zoom)];
                     }
                     return [2 /*return*/];
             }
         });
     }); };
 }
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/singlePagePsd.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/singlePagePsd.js.map

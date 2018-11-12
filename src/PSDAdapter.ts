@@ -1,8 +1,8 @@
-import * as core from "psdetch-core";
+import * as core from "uxele-core";
 import * as path from "path";
 import { artboardPsd } from "./artboardPsd";
 import { singlePagePsd } from "./singlePagePsd";
-import { IProject, IPage } from "psdetch-core";
+import { IProject, IPage } from "uxele-core";
 import "script-loader!./vendor/psd.min.js";
 const psdLib = (window as any)["require"]("psd");
 export class PSDAdapter implements core.IFileAdapter {

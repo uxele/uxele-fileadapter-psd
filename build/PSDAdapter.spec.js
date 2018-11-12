@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var PSDAdapter_1 = require("./PSDAdapter");
-var loadRemoteFile_1 = require("psdetch-utils/build/loadRemoteFile");
+var loadRemoteFile_1 = require("uxele-utils/build/loadRemoteFile");
 describe("PSDAdapter", function () {
     var adapter = new PSDAdapter_1.PSDAdapter();
     it("should match with psd file", function () {
@@ -331,4 +331,4 @@ describe("PSDAdapter", function () {
         }); });
     });
 });
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/PSDAdapter.spec.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/PSDAdapter.spec.js.map

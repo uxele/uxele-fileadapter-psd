@@ -105,4 +105,4 @@ var PSDAdapter = /** @class */ (function () {
     return PSDAdapter;
 }());
 exports.PSDAdapter = PSDAdapter;
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/PSDAdapter.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/PSDAdapter.js.map

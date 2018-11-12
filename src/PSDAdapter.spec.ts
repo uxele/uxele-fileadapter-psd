@@ -1,6 +1,6 @@
 import { PSDAdapter } from "./PSDAdapter";
-import { loadRemoteFile } from "psdetch-utils/build/loadRemoteFile";
-import { IPixelLayer, IFolderLayer, IVectorLayer } from "psdetch-core";
+import { loadRemoteFile } from "uxele-utils/build/loadRemoteFile";
+import { IPixelLayer, IFolderLayer, IVectorLayer } from "uxele-core";
 describe("PSDAdapter", () => {
   const adapter = new PSDAdapter();
   it("should match with psd file", () => {

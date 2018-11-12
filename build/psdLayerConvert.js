@@ -35,10 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var psdetch_core_1 = require("psdetch-core");
+var uxele_core_1 = require("uxele-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var psdetch_utils_1 = require("psdetch-utils");
-var layer_1 = require("psdetch-core/build/layer");
+var uxele_utils_1 = require("uxele-utils");
+var layer_1 = require("uxele-core/build/layer");
 function psdRawLayerConvert(parent, pageRect) {
     return __awaiter(this, void 0, void 0, function () {
         var psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;
@@ -54,16 +54,16 @@ function psdRawLayerConvert(parent, pageRect) {
                     layerType: getLayerType(rawNode),
                 };
                 switch (layerMeta.layerType) {
-                    case psdetch_core_1.LayerType.folder:
+                    case uxele_core_1.LayerType.folder:
                         buildFolderLayer(layerMeta, rawNode, pageRect);
                         break;
-                    case psdetch_core_1.LayerType.pixel:
+                    case uxele_core_1.LayerType.pixel:
                         buildPixelLayer(layerMeta, rawNode);
                         break;
-                    case psdetch_core_1.LayerType.text:
+                    case uxele_core_1.LayerType.text:
                         buildTextLayer(layerMeta, rawNode);
                         break;
-                    case psdetch_core_1.LayerType.vector:
+                    case uxele_core_1.LayerType.vector:
                         buildVectorLayer(layerMeta, rawNode);
                         break;
                 }
@@ -95,7 +95,7 @@ function trimLayerRect(layer, rawNode) {
                     return [3 /*break*/, 5];
                 case 4: return [2 /*return*/];
                 case 5:
-                    layer.rect = psdetch_utils_1.adjustPixelRect(layer.rect, preview);
+                    layer.rect = uxele_utils_1.adjustPixelRect(layer.rect, preview);
                     return [2 /*return*/];
             }
         });
@@ -177,7 +177,7 @@ function buildVectorLayer(layer, rawNode) {
                 drawer = require("./psdSvg/drawPath");
                 drawer(ctx, rl);
                 draftSvg = ctx.getSerializedSvg();
-                svgString = psdetch_utils_1.centerSvgStringViewBox(draftSvg);
+                svgString = uxele_utils_1.centerSvgStringViewBox(draftSvg);
             }
             return [2 /*return*/, svgString];
         });
@@ -188,7 +188,7 @@ function getRect(rawNode, pageRect) {
     if (rawNode.layer.mask && rawNode.layer.mask.disabled === false) {
         data = rawNode.layer.mask;
     }
-    var rtn = new psdetch_core_1.Rect(data.left, data.top, data.right, data.bottom);
+    var rtn = new uxele_core_1.Rect(data.left, data.top, data.right, data.bottom);
     if (rawNode.clippedBy()) {
         var clippedRect = getRect(rawNode.clippedBy(), pageRect);
         rtn = rtn.clampBy(clippedRect);
@@ -206,21 +206,21 @@ function getRect(rawNode, pageRect) {
 }
 function getLayerType(rawNode) {
     if (rawNode.isRoot()) {
-        return psdetch_core_1.LayerType.folder;
+        return uxele_core_1.LayerType.folder;
     }
     else if (rawNode.isGroup()) {
-        return psdetch_core_1.LayerType.folder;
+        return uxele_core_1.LayerType.folder;
         // } else if (rawNode.isFolderEnd()) {
         //   return LayerType.folder_end;
     }
     else if (typeof rawNode.layer.vectorMask !== "undefined") {
-        return psdetch_core_1.LayerType.vector;
+        return uxele_core_1.LayerType.vector;
     }
     else if (typeof rawNode.layer.typeTool !== "undefined") {
-        return psdetch_core_1.LayerType.text;
+        return uxele_core_1.LayerType.text;
     }
     else {
-        return psdetch_core_1.LayerType.pixel;
+        return uxele_core_1.LayerType.pixel;
     }
 }
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/psdLayerConvert.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/psdLayerConvert.js.map

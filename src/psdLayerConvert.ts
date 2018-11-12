@@ -1,7 +1,7 @@
-import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "psdetch-core";
+import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "uxele-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import { adjustPixelRect, centerSvgStringViewBox } from "psdetch-utils";
-import { isPixelLayer, isFolderLayer } from "psdetch-core/build/layer";
+import { adjustPixelRect, centerSvgStringViewBox } from "uxele-utils";
+import { isPixelLayer, isFolderLayer } from "uxele-core/build/layer";
 export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<ILayer[]> {
   const psdRawLayers = parent.children();
   const rtn: ILayer[] = [];

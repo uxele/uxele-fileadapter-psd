@@ -1,8 +1,7 @@
-import { IPage, Rect, ILayer, layer } from "psdetch-core";
+import { IPage, Rect, ILayer, layer } from "uxele-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import { canvas } from "psdetch-utils";
+import { canvas,canvasToImg, zoomImg  } from "uxele-utils";
 import { psdRawLayerConvert } from "./psdLayerConvert";
-import { canvasToImg, zoomImg } from "psdetch-utils/build/canvas";
 
 export function artboardPsd(p: any): IPage[] {
   const tree = p.tree();

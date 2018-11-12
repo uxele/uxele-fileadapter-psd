@@ -35,11 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var psdetch_core_1 = require("psdetch-core");
+var uxele_core_1 = require("uxele-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var psdetch_utils_1 = require("psdetch-utils");
+var uxele_utils_1 = require("uxele-utils");
 var psdLayerConvert_1 = require("./psdLayerConvert");
-var canvas_1 = require("psdetch-utils/build/canvas");
 function artboardPsd(p) {
     var _this = this;
     var tree = p.tree();
@@ -49,12 +48,12 @@ function artboardPsd(p) {
     var _loop_1 = function (c) {
         var rect;
         if (c.layer.artboard) {
-            rect = psdetch_core_1.Rect.fromJson(c.layer.artboard().export().coords);
+            rect = uxele_core_1.Rect.fromJson(c.layer.artboard().export().coords);
         }
         else {
-            rect = psdetch_core_1.Rect.fromJson(c);
+            rect = uxele_core_1.Rect.fromJson(c);
         }
-        var bgPage = psdetch_utils_1.canvas.cropCanvas(bgImg, rect);
+        var bgPage = uxele_utils_1.canvas.cropCanvas(bgImg, rect);
         var previewImg = undefined;
         var layers = undefined;
         var page = {
@@ -68,14 +67,14 @@ function artboardPsd(p) {
                     switch (_a.label) {
                         case 0:
                             if (!!previewImg) return [3 /*break*/, 2];
-                            return [4 /*yield*/, canvas_1.canvasToImg(bgPage)];
+                            return [4 /*yield*/, uxele_utils_1.canvasToImg(bgPage)];
                         case 1:
                             previewImg = _a.sent();
                             _a.label = 2;
                         case 2:
                             if (!(zoom === 1)) return [3 /*break*/, 3];
                             return [2 /*return*/, previewImg];
-                        case 3: return [4 /*yield*/, canvas_1.zoomImg(previewImg, zoom)];
+                        case 3: return [4 /*yield*/, uxele_utils_1.zoomImg(previewImg, zoom)];
                         case 4: return [2 /*return*/, _a.sent()];
                     }
                 });
@@ -105,4 +104,4 @@ function artboardPsd(p) {
     return rtn;
 }
 exports.artboardPsd = artboardPsd;
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/psdetch-fileadapter-psd/src/artboardPsd.js.map
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/artboardPsd.js.map

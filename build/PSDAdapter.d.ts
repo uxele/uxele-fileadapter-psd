@@ -1,5 +1,5 @@
-import * as core from "psdetch-core";
-import { IProject } from "psdetch-core";
+import * as core from "uxele-core";
+import { IProject } from "uxele-core";
 import "script-loader!./vendor/psd.min.js";
 export declare class PSDAdapter implements core.IFileAdapter {
     private decodePages;
