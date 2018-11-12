@@ -35,9 +35,13 @@ function paths(paths,layer){
 function vectConvert(obj,layer,root){
   var horiz=obj.horiz>1?0:obj.horiz;
   var vert=obj.vert>1?0:obj.vert;
+  var rect=layer.node;
+  if (layer.mask && layer.mask.disabled===false){
+    rect=layer.mask;
+  }
   return {
-    horiz:root.width*horiz-layer.node.left,
-    vert:root.height*vert-layer.node.top
+    horiz:root.width*horiz-rect.left,
+    vert:root.height*vert-rect.top
   };
 
 }

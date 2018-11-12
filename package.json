@@ -1,5 +1,5 @@
 {
-  "name": "psdetch-fileadapter-psd",
+  "name": "uxele-fileadapter-psd",
   "version": "1.0.3",
   "description": "",
   "main": "index.js",
@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "path": "^0.12.7",
-    "psdetch-core": "git+ssh://git@gitlab.com/psdetch/psdetch-core.git",
-    "psdetch-utils": "git+ssh://git@gitlab.com/psdetch/psdetch-utils.git",
+    "uxele-core": "git+ssh://git@github.com/uxele/uxele-core.git",
+    "uxele-utils": "git+ssh://git@github.com/uxele/uxele-utils.git",
     "script-loader": "^0.7.2"
   }
 }

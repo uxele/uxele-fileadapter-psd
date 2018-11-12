@@ -1,6 +1,6 @@
 import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "psdetch-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import {adjustPixelRect} from "psdetch-utils";
+import { adjustPixelRect, centerSvgStringViewBox } from "psdetch-utils";
 import { isPixelLayer, isFolderLayer } from "psdetch-core/build/layer";
 export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<ILayer[]> {
   const psdRawLayers = parent.children();
@@ -27,22 +27,22 @@ export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<
         buildVectorLayer(layerMeta, rawNode);
         break;
     }
-    trimLayerRect(layerMeta,rawNode);
+    trimLayerRect(layerMeta, rawNode);
     rtn.push(layerMeta);
   }
   return rtn;
 }
-async function trimLayerRect(layer:ILayer,rawNode:any){
-  let preview:HTMLCanvasElement;
-  if (isPixelLayer(layer)){
-    preview= await layer.getPixelImg();
-  }else if (!isFolderLayer(layer)){
+async function trimLayerRect(layer: ILayer, rawNode: any) {
+  let preview: HTMLCanvasElement;
+  if (isPixelLayer(layer)) {
+    preview = await layer.getPixelImg();
+  } else if (!isFolderLayer(layer)) {
     const imgObj = rawNode.layer.image.obj;
-    preview=await psdImgObjToCanvas(imgObj);
-  }else{
-    return ;
+    preview = await psdImgObjToCanvas(imgObj);
+  } else {
+    return;
   }
-  layer.rect=adjustPixelRect(layer.rect,preview);
+  layer.rect = adjustPixelRect(layer.rect, preview);
 }
 function buildFolderLayer(layer: ILayer, rawNode: any, pageRect?: Rect): void {
   const l = layer as IFolderLayer;
@@ -68,20 +68,20 @@ async function buildPixelLayer(layer: ILayer, rawNode: any) {
 }
 function buildTextLayer(layer: ILayer, rawNode: any): void {
   const l = layer as ITextLayer;
-  let txt:string ="";
+  let txt: string = "";
   l.getText = () => {
-    if (!txt){
-      txt=rawNode.layer.typeTool().textValue
+    if (!txt) {
+      txt = rawNode.layer.typeTool().textValue
     }
     return Promise.resolve(txt);
   };
 }
 function buildVectorLayer(layer: ILayer, rawNode: any): void {
   const l = layer as IVectorLayer;
-  let svgString:string="";
+  let svgString: string = "";
 
   l.getSvgString = async () => {
-    if (!svgString){
+    if (!svgString) {
       const rl = rawNode.layer;
       let vm = rl.vectorMask();
       if (!vm.loaded) {
@@ -92,10 +92,11 @@ function buildVectorLayer(layer: ILayer, rawNode: any): void {
         // TODO what to do?
       }
       const Context = require("./psdSvg/canvas2svg");
-      const ctx = new Context(rl.width, rl.height);
+      const ctx = new Context(l.rect.width, l.rect.height);
       const drawer = require("./psdSvg/drawPath");
       drawer(ctx, rl);
-      svgString=ctx.getSerializedSvg();
+      const draftSvg = ctx.getSerializedSvg();
+      svgString=centerSvgStringViewBox(draftSvg);
     }
     return svgString;
   };

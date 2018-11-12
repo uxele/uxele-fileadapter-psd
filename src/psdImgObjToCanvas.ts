@@ -6,8 +6,9 @@ export function psdImgObjToCanvas(rawImg: any): HTMLCanvasElement {
   rtn.height = rawImg.height();
   const imgData = parseImg(rawImg);
   const ctx = rtn.getContext("2d");
-  if (ctx) {
-    ctx.putImageData(new ImageData(imgData, rtn.width, rtn.height), 0, 0);
+  if (ctx && imgData.length>0) {
+      ctx.putImageData(new ImageData(imgData, rtn.width, rtn.height), 0, 0);
+   
   }
 
   return rtn;

@@ -160,7 +160,7 @@ function buildVectorLayer(layer, rawNode) {
     var l = layer;
     var svgString = "";
     l.getSvgString = function () { return __awaiter(_this, void 0, void 0, function () {
-        var rl, vm, Context, ctx, drawer;
+        var rl, vm, Context, ctx, drawer, draftSvg;
         return __generator(this, function (_a) {
             if (!svgString) {
                 rl = rawNode.layer;
@@ -173,10 +173,11 @@ function buildVectorLayer(layer, rawNode) {
                     // TODO what to do?
                 }
                 Context = require("./psdSvg/canvas2svg");
-                ctx = new Context(rl.width, rl.height);
+                ctx = new Context(l.rect.width, l.rect.height);
                 drawer = require("./psdSvg/drawPath");
                 drawer(ctx, rl);
-                svgString = ctx.getSerializedSvg();
+                draftSvg = ctx.getSerializedSvg();
+                svgString = psdetch_utils_1.centerSvgStringViewBox(draftSvg);
             }
             return [2 /*return*/, svgString];
         });

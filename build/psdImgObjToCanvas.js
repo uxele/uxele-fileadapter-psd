@@ -15,7 +15,7 @@ function psdImgObjToCanvas(rawImg) {
     rtn.height = rawImg.height();
     var imgData = parseImg(rawImg);
     var ctx = rtn.getContext("2d");
-    if (ctx) {
+    if (ctx && imgData.length > 0) {
         ctx.putImageData(new ImageData(imgData, rtn.width, rtn.height), 0, 0);
     }
     return rtn;
