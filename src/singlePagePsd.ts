@@ -1,6 +1,6 @@
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
 import { canvasToImg, canvasToImgUrl,zoomImg } from "uxele-utils/build/canvas";
-import { IPage, ILayer, layer } from "uxele-core";
+import { IPage, ILayer } from "uxele-core";
 import { psdRawLayerConvert } from "./psdLayerConvert";
 
 export function singlePagePsd(p: any, defaultPageName: string): IPage[] {

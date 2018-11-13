@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uxele_core_1 = require("uxele-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
 var uxele_utils_1 = require("uxele-utils");
-var layer_1 = require("uxele-core/build/layer");
+var layer_1 = require("uxele-utils/build/layer");
 function psdRawLayerConvert(parent, pageRect) {
     return __awaiter(this, void 0, void 0, function () {
         var psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;

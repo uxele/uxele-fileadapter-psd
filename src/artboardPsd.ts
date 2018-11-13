@@ -1,4 +1,4 @@
-import { IPage, Rect, ILayer, layer } from "uxele-core";
+import { IPage, Rect, ILayer } from "uxele-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
 import { canvas,canvasToImg, zoomImg  } from "uxele-utils";
 import { psdRawLayerConvert } from "./psdLayerConvert";
