@@ -35,57 +35,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var uxele_core_1 = require("uxele-core");
-var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var uxele_utils_1 = require("uxele-utils");
-var psdLayerConvert_1 = require("./psdLayerConvert");
-var genGetPreview_1 = require("./genGetPreview");
-function artboardPsd(p) {
+var build_1 = require("uxele-utils/build");
+function genGetPreview(bgCanvas) {
     var _this = this;
-    var tree = p.tree();
-    var children = tree.children();
-    var bgImg = psdImgObjToCanvas_1.psdImgObjToCanvas(p.image.obj);
-    var rtn = [];
-    var _loop_1 = function (c) {
-        var rect;
-        if (c.layer.artboard) {
-            rect = uxele_core_1.Rect.fromJson(c.layer.artboard().export().coords);
-        }
-        else {
-            rect = uxele_core_1.Rect.fromJson(c);
-        }
-        var bgPage = uxele_utils_1.canvas.cropCanvas(bgImg, rect);
-        var layers = undefined;
-        var page = {
-            name: c.name,
-            offsetX: rect.left,
-            offsetY: rect.top,
-            width: rect.width,
-            height: rect.height,
-            getPreview: genGetPreview_1.genGetPreview(bgPage),
-            getLayers: function () { return __awaiter(_this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            if (!!layers) return [3 /*break*/, 2];
-                            return [4 /*yield*/, psdLayerConvert_1.psdRawLayerConvert(c, rect)];
-                        case 1:
-                            layers = _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, layers];
-                    }
-                });
-            }); },
-        };
-        // page.layers =
-        //   pageLayerMap[page.id] = c.children();
-        rtn.push(page);
-    };
-    for (var _i = 0, children_1 = children; _i < children_1.length; _i++) {
-        var c = children_1[_i];
-        _loop_1(c);
-    }
-    return rtn;
+    var cache = {};
+    return function (zoom) { return __awaiter(_this, void 0, void 0, function () {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    if (!cache[zoom]) return [3 /*break*/, 1];
+                    return [2 /*return*/, cache[zoom]];
+                case 1:
+                    _a = cache;
+                    _b = zoom;
+                    return [4 /*yield*/, build_1.canvasToImg(build_1.scaleCanvas(bgCanvas, zoom))];
+                case 2:
+                    _a[_b] = _c.sent();
+                    return [2 /*return*/, cache[zoom]];
+            }
+        });
+    }); };
 }
-exports.artboardPsd = artboardPsd;
-//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/artboardPsd.js.map
+exports.genGetPreview = genGetPreview;
+//# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/genGetPreview.js.map

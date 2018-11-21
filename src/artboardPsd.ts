@@ -1,7 +1,8 @@
 import { IPage, Rect, ILayer } from "uxele-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
-import { canvas,canvasToImg, zoomImg  } from "uxele-utils";
+import { canvas, canvasToImg, zoomImg } from "uxele-utils";
 import { psdRawLayerConvert } from "./psdLayerConvert";
+import { genGetPreview } from "./genGetPreview";
 
 export function artboardPsd(p: any): IPage[] {
   const tree = p.tree();
@@ -16,27 +17,17 @@ export function artboardPsd(p: any): IPage[] {
       rect = Rect.fromJson(c);
     }
     const bgPage = canvas.cropCanvas(bgImg, rect);
-    let previewImg:HTMLImageElement | undefined=undefined;
-    let layers:ILayer[]|undefined=undefined;
+    let layers: ILayer[] | undefined = undefined;
     const page: IPage = {
       name: c.name,
       offsetX: rect.left,
       offsetY: rect.top,
       width: rect.width,
       height: rect.height,
-      getPreview: async (zoom: number) => {
-        if (!previewImg){
-          previewImg=await canvasToImg(bgPage);
-        }
-        if (zoom ===1){
-          return previewImg;
-        }else{
-          return await zoomImg(previewImg,zoom);
-        }
-      },
+      getPreview: genGetPreview(bgPage),
       getLayers: async (): Promise<ILayer[]> => {
-        if (!layers){
-          layers=await psdRawLayerConvert(c,rect); 
+        if (!layers) {
+          layers = await psdRawLayerConvert(c, rect);
         }
         return layers;
       },

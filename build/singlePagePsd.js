@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
-var canvas_1 = require("uxele-utils/build/canvas");
 var psdLayerConvert_1 = require("./psdLayerConvert");
+var genGetPreview_1 = require("./genGetPreview");
 function singlePagePsd(p, defaultPageName) {
     var _this = this;
     var tree = p.tree();
@@ -49,7 +49,7 @@ function singlePagePsd(p, defaultPageName) {
         name: name,
         width: bgImg.width,
         height: bgImg.height,
-        getPreview: genGetPreview(bgImg),
+        getPreview: genGetPreview_1.genGetPreview(bgImg),
         getLayers: function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -67,28 +67,4 @@ function singlePagePsd(p, defaultPageName) {
     return [page];
 }
 exports.singlePagePsd = singlePagePsd;
-function genGetPreview(bgCanvas) {
-    var _this = this;
-    var previewImg = undefined;
-    return function (zoom) { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!!previewImg) return [3 /*break*/, 2];
-                    return [4 /*yield*/, canvas_1.canvasToImg(bgCanvas)];
-                case 1:
-                    previewImg = _a.sent();
-                    _a.label = 2;
-                case 2:
-                    if (zoom === 1) {
-                        return [2 /*return*/, previewImg];
-                    }
-                    else {
-                        return [2 /*return*/, canvas_1.zoomImg(previewImg, zoom)];
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    }); };
-}
 //# sourceMappingURL=/Users/kxiang/work/projects/psdetch/v3-new/uxele-fileadapter-psd/src/singlePagePsd.js.map
