@@ -11,13 +11,14 @@ export function singlePagePsd(p: any, defaultPageName: string): IPage[] {
   const bgImg = psdImgObjToCanvas(p.image.obj);
   let layers: ILayer[] | undefined = undefined;
   const page: IPage = {
+    id:name,
     name,
     width: bgImg.width,
     height: bgImg.height,
     getPreview: genGetPreview(bgImg),
     getLayers: async (): Promise<ILayer[]> => {
       if (!layers) {
-        layers = await psdRawLayerConvert(tree);
+        layers = await psdRawLayerConvert(tree,page);
       }
       return layers;
     },

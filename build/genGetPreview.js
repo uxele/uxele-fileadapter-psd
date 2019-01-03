@@ -36,14 +36,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var build_1 = require("uxele-utils/build");
+// export function genGetPreview(bgCanvas: HTMLCanvasElement) {
+//   const cache: { [key: number]: HTMLImageElement } = {};
+//   return async (zoom: number) => {
+//     if (cache[zoom]) {
+//       return cache[zoom];
+//     } else {
+//       cache[zoom] = await canvasToImg(scaleCanvas(bgCanvas, zoom));
+//       return cache[zoom];
+//     }
+//   }
+// }
 function genGetPreview(bgCanvas) {
     var _this = this;
     var cache = {};
-    return function (zoom) { return __awaiter(_this, void 0, void 0, function () {
-        var _a, _b;
+    return function () { return __awaiter(_this, void 0, void 0, function () {
+        var zoom, _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    zoom = 1;
                     if (!cache[zoom]) return [3 /*break*/, 1];
                     return [2 /*return*/, cache[zoom]];
                 case 1:

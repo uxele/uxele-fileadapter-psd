@@ -1,8 +1,13 @@
-import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer } from "uxele-core";
+import { Rect, LayerType, ILayer, IFolderLayer, IPixelLayer, ITextLayer, IVectorLayer, IPage } from "uxele-core";
 import { psdImgObjToCanvas } from "./psdImgObjToCanvas";
 import { adjustPixelRect, centerSvgStringViewBox } from "uxele-utils";
 import { isPixelLayer, isFolderLayer } from "uxele-utils/build/layer";
-export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<ILayer[]> {
+export async function psdRawLayerConvert(parent: any, page: IPage): Promise<ILayer[]> {
+  const left = page.offsetX ? page.offsetX : 0;
+  const top = page.offsetY ? page.offsetY : 0;
+  const right = left + page.width;
+  const bottom = top + page.height;
+  const pageRect = new Rect(left, top, right, bottom);
   const psdRawLayers = parent.children();
   const rtn: ILayer[] = [];
   for (const rawNode of psdRawLayers) {
@@ -11,10 +16,11 @@ export async function psdRawLayerConvert(parent: any, pageRect?: Rect): Promise<
       rect: getRect(rawNode, pageRect),
       visible: rawNode.visible(),
       layerType: getLayerType(rawNode),
+      page
     };
     switch (layerMeta.layerType) {
       case LayerType.folder:
-        buildFolderLayer(layerMeta, rawNode, pageRect);
+        buildFolderLayer(layerMeta, rawNode, pageRect,page);
         break;
 
       case LayerType.pixel:
@@ -44,12 +50,12 @@ async function trimLayerRect(layer: ILayer, rawNode: any) {
   }
   layer.rect = adjustPixelRect(layer.rect, preview);
 }
-function buildFolderLayer(layer: ILayer, rawNode: any, pageRect?: Rect): void {
+function buildFolderLayer(layer: ILayer, rawNode: any, pageRect: Rect,page:IPage): void {
   const l = layer as IFolderLayer;
   let children: ILayer[] | undefined = undefined;
   l.children = async () => {
     if (!children) {
-      children = await psdRawLayerConvert(rawNode, pageRect);
+      children = await psdRawLayerConvert(rawNode, page);
     }
     return children;
   };
@@ -96,7 +102,7 @@ function buildVectorLayer(layer: ILayer, rawNode: any): void {
       const drawer = require("./psdSvg/drawPath");
       drawer(ctx, rl);
       const draftSvg = ctx.getSerializedSvg();
-      svgString=centerSvgStringViewBox(draftSvg);
+      svgString = centerSvgStringViewBox(draftSvg);
     }
     return svgString;
   };

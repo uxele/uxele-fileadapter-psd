@@ -19,6 +19,7 @@ export function artboardPsd(p: any): IPage[] {
     const bgPage = canvas.cropCanvas(bgImg, rect);
     let layers: ILayer[] | undefined = undefined;
     const page: IPage = {
+      id:c.name,
       name: c.name,
       offsetX: rect.left,
       offsetY: rect.top,
@@ -27,7 +28,7 @@ export function artboardPsd(p: any): IPage[] {
       getPreview: genGetPreview(bgPage),
       getLayers: async (): Promise<ILayer[]> => {
         if (!layers) {
-          layers = await psdRawLayerConvert(c, rect);
+          layers = await psdRawLayerConvert(c, page);
         }
         return layers;
       },

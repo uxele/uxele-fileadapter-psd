@@ -46,6 +46,7 @@ function singlePagePsd(p, defaultPageName) {
     var bgImg = psdImgObjToCanvas_1.psdImgObjToCanvas(p.image.obj);
     var layers = undefined;
     var page = {
+        id: name,
         name: name,
         width: bgImg.width,
         height: bgImg.height,
@@ -55,7 +56,7 @@ function singlePagePsd(p, defaultPageName) {
                 switch (_a.label) {
                     case 0:
                         if (!!layers) return [3 /*break*/, 2];
-                        return [4 /*yield*/, psdLayerConvert_1.psdRawLayerConvert(tree)];
+                        return [4 /*yield*/, psdLayerConvert_1.psdRawLayerConvert(tree, page)];
                     case 1:
                         layers = _a.sent();
                         _a.label = 2;

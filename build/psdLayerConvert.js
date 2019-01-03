@@ -39,10 +39,15 @@ var uxele_core_1 = require("uxele-core");
 var psdImgObjToCanvas_1 = require("./psdImgObjToCanvas");
 var uxele_utils_1 = require("uxele-utils");
 var layer_1 = require("uxele-utils/build/layer");
-function psdRawLayerConvert(parent, pageRect) {
+function psdRawLayerConvert(parent, page) {
     return __awaiter(this, void 0, void 0, function () {
-        var psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;
+        var left, top, right, bottom, pageRect, psdRawLayers, rtn, _i, psdRawLayers_1, rawNode, layerMeta;
         return __generator(this, function (_a) {
+            left = page.offsetX ? page.offsetX : 0;
+            top = page.offsetY ? page.offsetY : 0;
+            right = left + page.width;
+            bottom = top + page.height;
+            pageRect = new uxele_core_1.Rect(left, top, right, bottom);
             psdRawLayers = parent.children();
             rtn = [];
             for (_i = 0, psdRawLayers_1 = psdRawLayers; _i < psdRawLayers_1.length; _i++) {
@@ -52,10 +57,11 @@ function psdRawLayerConvert(parent, pageRect) {
                     rect: getRect(rawNode, pageRect),
                     visible: rawNode.visible(),
                     layerType: getLayerType(rawNode),
+                    page: page
                 };
                 switch (layerMeta.layerType) {
                     case uxele_core_1.LayerType.folder:
-                        buildFolderLayer(layerMeta, rawNode, pageRect);
+                        buildFolderLayer(layerMeta, rawNode, pageRect, page);
                         break;
                     case uxele_core_1.LayerType.pixel:
                         buildPixelLayer(layerMeta, rawNode);
@@ -101,7 +107,7 @@ function trimLayerRect(layer, rawNode) {
         });
     });
 }
-function buildFolderLayer(layer, rawNode, pageRect) {
+function buildFolderLayer(layer, rawNode, pageRect, page) {
     var _this = this;
     var l = layer;
     var children = undefined;
@@ -110,7 +116,7 @@ function buildFolderLayer(layer, rawNode, pageRect) {
             switch (_a.label) {
                 case 0:
                     if (!!children) return [3 /*break*/, 2];
-                    return [4 /*yield*/, psdRawLayerConvert(rawNode, pageRect)];
+                    return [4 /*yield*/, psdRawLayerConvert(rawNode, page)];
                 case 1:
                     children = _a.sent();
                     _a.label = 2;

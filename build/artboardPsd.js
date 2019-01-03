@@ -47,7 +47,7 @@ function artboardPsd(p) {
     var bgImg = psdImgObjToCanvas_1.psdImgObjToCanvas(p.image.obj);
     var rtn = [];
     var _loop_1 = function (c) {
-        var rect;
+        var rect = void 0;
         if (c.layer.artboard) {
             rect = uxele_core_1.Rect.fromJson(c.layer.artboard().export().coords);
         }
@@ -57,6 +57,7 @@ function artboardPsd(p) {
         var bgPage = uxele_utils_1.canvas.cropCanvas(bgImg, rect);
         var layers = undefined;
         var page = {
+            id: c.name,
             name: c.name,
             offsetX: rect.left,
             offsetY: rect.top,
@@ -68,7 +69,7 @@ function artboardPsd(p) {
                     switch (_a.label) {
                         case 0:
                             if (!!layers) return [3 /*break*/, 2];
-                            return [4 /*yield*/, psdLayerConvert_1.psdRawLayerConvert(c, rect)];
+                            return [4 /*yield*/, psdLayerConvert_1.psdRawLayerConvert(c, page)];
                         case 1:
                             layers = _a.sent();
                             _a.label = 2;
